@@ -1,0 +1,36 @@
+const validator = require("validator");
+
+const validateSignUpData = (req) => {
+  const { firstName, lastName, emailId, password } = req.body;
+  if (!firstName || !lastName) {
+    throw new Error("Name is not valid!");
+  } else if (!validator.isEmail(emailId)) {
+    throw new Error("Email is not valid!");
+  } else if (!validator.isStrongPassword(password)) {
+    throw new Error("Please enter a strong Password!");
+  }
+};
+
+const validateProfileData = (req) =>{
+
+  const isAllowed = ["firstName","lastName","age","gender","skills","about","photoUrl"];
+
+  const isMatched = Object.keys(req.body).every(item => isAllowed.includes(item));
+
+  return isMatched;
+
+}
+
+const validatePasswordChange =(password) => {
+    if(!validator.isStrongPassword(password))
+    {
+      throw new Error("Please enter a strong Password");
+    }
+
+}
+
+module.exports = {
+  validateSignUpData,
+  validateProfileData,
+  validatePasswordChange
+};
